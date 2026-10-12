@@ -1,0 +1,65 @@
+<%- include('header.ejs') %>
+
+  <div class="card-header-bar" style="border: none; padding-bottom: 0; margin-bottom: 24px;">
+    <div>
+      <h2 style="font-size: 1.6rem; color: #FFFFFF;">Site & Brand Settings</h2>
+      <p style="color: var(--admin-muted); font-size: 0.88rem;">Customize brand naming, hero section messaging, and direct concierge contact information.</p>
+    </div>
+  </div>
+
+  <% if (typeof saved !== 'undefined' && saved) { %>
+    <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #10B981; padding: 14px 20px; border-radius: var(--radius-sm); margin-bottom: 24px; display: flex; align-items: center; gap: 10px;">
+      <i class="fa-solid fa-circle-check"></i> Site settings have been successfully updated!
+    </div>
+  <% } %>
+
+  <div class="admin-card">
+    <form action="/admin/update_settings" method="POST">
+      <div class="form-grid-2">
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="siteName">Brand / Site Name</label>
+          <input type="text" name="site_name" id="siteName" class="admin-input" value="<%= settings.site_name || 'Aura Luxury Villas' %>" required />
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="siteTagline">Brand Tagline</label>
+          <input type="text" name="tagline" id="siteTagline" class="admin-input" value="<%= settings.tagline || 'Bespoke Private Sanctuaries & Coastal Escapes' %>" required />
+        </div>
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="heroTitle">Hero Headline</label>
+        <input type="text" name="hero_title" id="heroTitle" class="admin-input" value="<%= settings.hero_title || 'Discover Unrivaled Coastal Luxury' %>" required />
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="heroSubtitle">Hero Subtitle</label>
+        <textarea name="hero_subtitle" id="heroSubtitle" rows="3" class="admin-textarea" required><%= settings.hero_subtitle || 'Handcrafted private estates, crystal infinity pools, and round-the-clock bespoke concierge services across the world’s most coveted destinations.' %></textarea>
+      </div>
+
+      <div class="form-grid-3">
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="contactEmail">Concierge Email</label>
+          <input type="email" name="contact_email" id="contactEmail" class="admin-input" value="<%= settings.contact_email || 'reservations@auravillas.com' %>" required />
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="contactPhone">Concierge Direct Phone</label>
+          <input type="text" name="contact_phone" id="contactPhone" class="admin-input" value="<%= settings.contact_phone || '+1 (800) 589-2872' %>" required />
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="contactAddress">Headquarters Address</label>
+          <input type="text" name="contact_address" id="contactAddress" class="admin-input" value="<%= settings.contact_address || '742 Ocean Boulevard, Malibu Coast, CA 90265' %>" required />
+        </div>
+      </div>
+
+      <div style="margin-top: 24px;">
+        <button type="submit" class="btn-admin btn-admin-gold" style="padding: 14px 36px; font-size: 0.95rem;">
+          <i class="fa-solid fa-floppy-disk"></i> Save Site Configuration
+        </button>
+      </div>
+    </form>
+  </div>
+
+<%- include('footer.ejs') %>

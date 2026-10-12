@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Portal Login | Aura Luxury Villas CMS</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body class="login-body">
+
+  <div class="login-card">
+    <div class="login-header">
+      <div style="width: 56px; height: 56px; border-radius: 12px; background: rgba(197, 168, 128, 0.15); border: 1px solid var(--admin-gold); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; color: var(--admin-gold); font-size: 1.5rem;">
+        <i class="fa-solid fa-crown"></i>
+      </div>
+      <h1>Aura <span>Villas</span></h1>
+      <p>Management & Concierge Portal</p>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #EF4444; padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 20px; font-size: 0.88rem; text-align: center;">
+        <i class="fa-solid fa-circle-exclamation" style="margin-right: 6px;"></i> Invalid username or password. (Hint: admin / admin)
+      </div>
+    <% } %>
+
+    <form action="/admin/login_check" method="POST">
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="adminUsername">Username</label>
+        <input type="text" name="username" id="adminUsername" class="admin-input" placeholder="admin" value="admin" required />
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="adminPassword">Password</label>
+        <input type="password" name="password" id="adminPassword" class="admin-input" placeholder="admin" value="admin" required />
+      </div>
+
+      <button type="submit" class="btn-admin btn-admin-gold" style="width: 100%; justify-content: center; padding: 14px; margin-top: 10px; font-size: 0.95rem;">
+        <i class="fa-solid fa-right-to-bracket"></i> Sign In to Portal
+      </button>
+    </form>
+
+    <div style="margin-top: 24px; text-align: center; border-top: 1px solid var(--admin-border); padding-top: 18px;">
+      <a href="/" style="color: var(--admin-gold); font-size: 0.85rem; text-decoration: none;">
+        <i class="fa-solid fa-arrow-left"></i> Return to Public Website
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

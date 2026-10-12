@@ -1,0 +1,44 @@
+<%- include('header.ejs') %>
+
+  <!-- Page Header -->
+  <section style="padding: 160px 0 80px; background: linear-gradient(180deg, rgba(9, 11, 14, 0.85) 0%, var(--bg-dark) 100%), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat; text-align: center;">
+    <div class="container">
+      <span class="section-tagline">Visual Splendor</span>
+      <h1 class="section-title" style="font-size: clamp(2.6rem, 5vw, 4.2rem);">The Visual Gallery</h1>
+      <p class="section-desc" style="max-width: 680px; margin: 0 auto;">
+        Immerse yourself in panoramic cliffside infinity pools, marble master suites, and twilight fire lounges.
+      </p>
+    </div>
+  </section>
+
+  <!-- Photo Grid -->
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 24px;">
+        <% 
+        const galleryPhotos = [
+          { url: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80', title: 'Infinity Ocean Horizon', cat: 'Pools & Terraces' },
+          { url: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80', title: 'Amalfi Cliffside Perch', cat: 'Coastal Architecture' },
+          { url: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80', title: 'Caldera Sunset Suite', cat: 'Santorini Living' },
+          { url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80', title: 'Tropical Teak Pavilions', cat: 'Bali Sanctuaries' },
+          { url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80', title: 'Riviera Glass Facade', cat: 'French Riviera' },
+          { url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80', title: 'Mayan Coastline Beachfront', cat: 'Tulum Retreats' },
+          { url: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80', title: 'Matterhorn Alpine Chalet', cat: 'Zermatt Winter' },
+          { url: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=80', title: 'In-Villa Dining Lounge', cat: 'Interiors' },
+          { url: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1200&q=80', title: 'Spa & Hydrotherapy Plunge', cat: 'Wellness' }
+        ];
+        galleryPhotos.forEach(function(photo) { 
+        %>
+          <div style="position: relative; border-radius: var(--radius-md); overflow: hidden; height: 320px; border: 1px solid var(--border-subtle); group;">
+            <img src="<%= photo.url %>" alt="<%= photo.title %>" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" />
+            <div style="position: absolute; inset: 0; background: linear-gradient(0deg, rgba(9,11,14,0.85) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px;">
+              <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-primary); font-weight: 600;"><%= photo.cat %></span>
+              <h4 style="font-size: 1.25rem; color: #FFFFFF;"><%= photo.title %></h4>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+<%- include('footer.ejs') %>

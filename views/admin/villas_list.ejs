@@ -1,0 +1,83 @@
+<%- include('header.ejs') %>
+
+  <div class="card-header-bar" style="border: none; padding-bottom: 0; margin-bottom: 24px;">
+    <div>
+      <h2 style="font-size: 1.6rem; color: #FFFFFF;">Luxury Villa Collection</h2>
+      <p style="color: var(--admin-muted); font-size: 0.88rem;">Manage all listed estates, pricing, occupancy, and photographic assets.</p>
+    </div>
+    <a href="/admin/add_villa" class="btn-admin btn-admin-gold">
+      <i class="fa-solid fa-plus"></i> Add New Luxury Villa
+    </a>
+  </div>
+
+  <div class="admin-card">
+    <div class="table-responsive">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Estate Image</th>
+            <th>Title & Slug</th>
+            <th>Location</th>
+            <th>Price / Night</th>
+            <th>Capacity</th>
+            <th>Featured</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% 
+          const imageFallbacks = [
+            'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=400&q=80'
+          ];
+          %>
+          <% villas.forEach(function(v, idx) { 
+             const img = v.image && v.image.startsWith('villa_') 
+                ? '/uploads/' + v.image 
+                : imageFallbacks[idx % imageFallbacks.length];
+          %>
+            <tr>
+              <td>#<%= v.id %></td>
+              <td><img src="<%= img %>" alt="<%= v.title %>" class="table-thumb" /></td>
+              <td>
+                <strong style="color: #FFFFFF; font-size: 0.95rem;"><%= v.title %></strong><br />
+                <span style="font-size: 0.78rem; color: var(--admin-muted);"><%= v.slug %></span>
+              </td>
+              <td><i class="fa-solid fa-location-dot" style="color: var(--admin-gold); margin-right: 4px;"></i> <%= v.location %></td>
+              <td><strong style="color: var(--admin-gold); font-size: 1rem;">$<%= Number(v.price_per_night).toLocaleString() %></strong></td>
+              <td>
+                <span style="font-size: 0.85rem;"><%= v.guests %> Guests &bull; <%= v.bedrooms %> Beds</span>
+              </td>
+              <td>
+                <% if(v.featured) { %>
+                  <span class="badge" style="background: rgba(197, 168, 128, 0.2); color: var(--admin-gold);"><i class="fa-solid fa-check"></i> Yes</span>
+                <% } else { %>
+                  <span class="badge" style="background: rgba(255,255,255,0.05); color: var(--admin-muted);">Standard</span>
+                <% } %>
+              </td>
+              <td>
+                <div style="display: flex; gap: 8px;">
+                  <a href="/admin/edit_villa/<%= v.id %>" class="btn-admin btn-admin-gold btn-admin-sm" title="Edit Villa">
+                    <i class="fa-solid fa-pen"></i> Edit
+                  </a>
+                  <a href="/villa/<%= v.id %>" target="_blank" class="btn-admin btn-admin-sm" style="background: rgba(255,255,255,0.06); color: #FFF;" title="View Live">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  </a>
+                  <a href="/admin/delete_villa/<%= v.id %>" class="btn-admin btn-admin-danger btn-admin-sm confirm-delete" data-message="Are you sure you want to delete <%= v.title %>?" title="Delete Villa">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<%- include('footer.ejs') %>

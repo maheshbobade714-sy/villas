@@ -1,0 +1,163 @@
+<%- include('header.ejs') %>
+
+  <!-- Metrics Cards -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-info">
+        <h3><%= villasCount %></h3>
+        <p>Total Estates</p>
+      </div>
+      <div class="metric-icon"><i class="fa-solid fa-hotel"></i></div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-info">
+        <h3><%= inquiriesCount %></h3>
+        <p>Inquiries Received</p>
+      </div>
+      <div class="metric-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-info">
+        <h3 style="color: #F59E0B;"><%= pendingCount %></h3>
+        <p>Pending Action</p>
+      </div>
+      <div class="metric-icon" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;"><i class="fa-solid fa-clock"></i></div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-info">
+        <h3 style="color: #10B981;"><%= confirmedCount %></h3>
+        <p>Confirmed Bookings</p>
+      </div>
+      <div class="metric-icon" style="background: rgba(16, 185, 129, 0.15); color: #10B981;"><i class="fa-solid fa-circle-check"></i></div>
+    </div>
+  </div>
+
+  <!-- Quick Action Strip -->
+  <div style="display: flex; gap: 14px; margin-bottom: 32px; flex-wrap: wrap;">
+    <a href="/admin/add_villa" class="btn-admin btn-admin-gold">
+      <i class="fa-solid fa-plus"></i> Add New Luxury Villa
+    </a>
+    <a href="/admin/inquiries" class="btn-admin" style="background: var(--admin-card); border: 1px solid var(--admin-border); color: #FFFFFF;">
+      <i class="fa-solid fa-list-check"></i> Manage All Inquiries
+    </a>
+    <a href="/admin/settings" class="btn-admin" style="background: var(--admin-card); border: 1px solid var(--admin-border); color: #FFFFFF;">
+      <i class="fa-solid fa-sliders"></i> Edit Brand & Hero Info
+    </a>
+  </div>
+
+  <!-- Recent Inquiries Section -->
+  <div class="admin-card">
+    <div class="card-header-bar">
+      <h3 class="card-title"><i class="fa-solid fa-bell text-gold"></i> Recent Guest Inquiries</h3>
+      <a href="/admin/inquiries" style="color: var(--admin-gold); font-size: 0.85rem;">View All &rarr;</a>
+    </div>
+
+    <% if(recentInquiries.length === 0) { %>
+      <p style="color: var(--admin-muted); padding: 20px 0;">No inquiries received yet.</p>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Guest Name</th>
+              <th>Villa Requested</th>
+              <th>Dates / Guests</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentInquiries.forEach(function(inq) { %>
+              <tr>
+                <td><%= inq.created_date %></td>
+                <td>
+                  <strong><%= inq.guest_name %></strong><br />
+                  <span style="font-size: 0.8rem; color: var(--admin-muted);"><%= inq.email %></span>
+                </td>
+                <td><%= inq.villa_title || 'General' %></td>
+                <td>
+                  <%= (inq.check_in && inq.check_out) ? `${inq.check_in} to ${inq.check_out}` : 'Flexible' %><br />
+                  <span style="font-size: 0.8rem; color: var(--admin-muted);"><%= inq.guests_count %> Guests</span>
+                </td>
+                <td>
+                  <span class="badge badge-<%= inq.status %>"><%= inq.status %></span>
+                </td>
+                <td>
+                  <form action="/admin/update_inquiry_status" method="POST" style="display: inline-flex; gap: 6px;">
+                    <input type="hidden" name="id" value="<%= inq.id %>" />
+                    <select name="status" onchange="this.form.submit()" class="admin-select" style="padding: 4px 8px; font-size: 0.8rem;">
+                      <option value="pending" <%= inq.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                      <option value="contacted" <%= inq.status === 'contacted' ? 'selected' : '' %>>Contacted</option>
+                      <option value="confirmed" <%= inq.status === 'confirmed' ? 'selected' : '' %>>Confirmed</option>
+                      <option value="cancelled" <%= inq.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                    </select>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- Featured Villas Quick View -->
+  <div class="admin-card">
+    <div class="card-header-bar">
+      <h3 class="card-title"><i class="fa-solid fa-crown text-gold"></i> Active Villa Portfolio</h3>
+      <a href="/admin/villas" style="color: var(--admin-gold); font-size: 0.85rem;">Manage Portfolio &rarr;</a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Estate Title</th>
+            <th>Location</th>
+            <th>Price / Night</th>
+            <th>Specs</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% 
+          const imageFallbacks = [
+            'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80'
+          ];
+          %>
+          <% villas.forEach(function(v, idx) { 
+             const img = v.image && v.image.startsWith('villa_') 
+                ? '/uploads/' + v.image 
+                : imageFallbacks[idx % imageFallbacks.length];
+          %>
+            <tr>
+              <td><img src="<%= img %>" alt="<%= v.title %>" class="table-thumb" /></td>
+              <td>
+                <strong><%= v.title %></strong>
+                <% if(v.featured) { %><span class="badge" style="background: rgba(197, 168, 128, 0.2); color: var(--admin-gold); margin-left: 6px;">Featured</span><% } %>
+              </td>
+              <td><%= v.location %></td>
+              <td><strong style="color: var(--admin-gold);">$<%= Number(v.price_per_night).toLocaleString() %></strong></td>
+              <td><%= v.guests %> Guests &bull; <%= v.bedrooms %> Beds &bull; <%= v.bathrooms %> Baths</td>
+              <td>
+                <div style="display: flex; gap: 8px;">
+                  <a href="/admin/edit_villa/<%= v.id %>" class="btn-admin btn-admin-gold btn-admin-sm"><i class="fa-solid fa-pen"></i> Edit</a>
+                  <a href="/villa/<%= v.id %>" target="_blank" class="btn-admin btn-admin-sm" style="background: rgba(255,255,255,0.06); color: #FFF;"><i class="fa-solid fa-eye"></i></a>
+                </div>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<%- include('footer.ejs') %>

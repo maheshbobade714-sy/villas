@@ -1,0 +1,17 @@
+{
+  "name": "aura-luxury-villas",
+  "version": "1.0.0",
+  "description": "Premium Luxury Villas & Vacation Rentals CMS Web Application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-fileupload": "^1.5.2",
+    "express-session": "^1.19.0",
+    "mysql2": "^3.24.4"
+  }
+}

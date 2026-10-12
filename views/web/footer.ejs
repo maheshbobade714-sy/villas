@@ -1,0 +1,76 @@
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom: 20px;">
+            <span class="brand-title"><%= (typeof settings !== 'undefined' && settings.site_name) ? settings.site_name.split(' ')[0] : 'Aura' %> <span><%= (typeof settings !== 'undefined' && settings.site_name && settings.site_name.split(' ')[1]) ? settings.site_name.split(' ').slice(1).join(' ') : 'Villas' %></span></span>
+            <span class="brand-subtitle"><%= (typeof settings !== 'undefined' && settings.tagline) ? settings.tagline : 'Private Sanctuaries' %></span>
+          </div>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8; margin-bottom: 24px;">
+            A bespoke portfolio of architectural wonders, secluded oceanfront private estates, and round-the-clock white-glove hospitality curated for discerning travelers.
+          </p>
+          <div style="display: flex; gap: 14px;">
+            <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary);" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary);" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" style="width: 40px; height: 40px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; color: var(--gold-primary);" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Destinations</h4>
+          <ul class="footer-links">
+            <li><a href="/villas?location=Italy">Amalfi Coast, Italy</a></li>
+            <li><a href="/villas?location=Greece">Santorini, Greece</a></li>
+            <li><a href="/villas?location=Bali">Uluwatu, Bali</a></li>
+            <li><a href="/villas?location=France">French Riviera, France</a></li>
+            <li><a href="/villas?location=Mexico">Tulum, Mexico</a></li>
+            <li><a href="/villas?location=Switzerland">Zermatt, Switzerland</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="/">Home Sanctuary</a></li>
+            <li><a href="/villas">All Private Villas</a></li>
+            <li><a href="/amenities">Bespoke Experiences</a></li>
+            <li><a href="/about">Heritage & Philosophy</a></li>
+            <li><a href="/gallery">Visual Gallery</a></li>
+            <li><a href="/reviews">Guest Testimonials</a></li>
+            <li><a href="/contact">Concierge & Booking</a></li>
+            <li><a href="/admin" style="color: var(--gold-primary);"><i class="fa-solid fa-lock"></i> Staff CMS Portal</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Private Concierge</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px;">
+            <i class="fa-solid fa-phone text-gold" style="margin-right: 8px;"></i> <%= (typeof settings !== 'undefined' && settings.contact_phone) ? settings.contact_phone : '+1 (800) 589-2872' %>
+          </p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 12px;">
+            <i class="fa-solid fa-envelope text-gold" style="margin-right: 8px;"></i> <%= (typeof settings !== 'undefined' && settings.contact_email) ? settings.contact_email : 'reservations@auravillas.com' %>
+          </p>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+            <i class="fa-solid fa-location-dot text-gold" style="margin-right: 8px;"></i> <%= (typeof settings !== 'undefined' && settings.contact_address) ? settings.contact_address : '742 Ocean Boulevard, Malibu Coast' %>
+          </p>
+          <a href="https://wa.me/917972540923?text=Hello%2C%20I%27d%20like%20to%20enquire%20about%20booking%20a%20villa."
+            target="_blank" rel="noopener noreferrer"
+            style="display: block; background: var(--bg-surface); padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-gold); text-decoration: none;">
+            <p style="font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-primary); margin-bottom: 4px;">Direct WhatsApp</p>
+            <p style="font-size: 0.88rem; color: var(--text-main);">+91 7972540923 · Message for villa bookings</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; <%= new Date().getFullYear() %> Aura Luxury Villas & Estates. All Rights Reserved.</p>
+        <p>Crafted with bespoke excellence & modern Node.js CMS architecture.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/main.js"></script>
+</body>
+</html>

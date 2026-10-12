@@ -1,0 +1,76 @@
+<%- include('header.ejs') %>
+
+  <div class="card-header-bar" style="border: none; padding-bottom: 0; margin-bottom: 24px;">
+    <div>
+      <h2 style="font-size: 1.6rem; color: #FFFFFF;">Guest Reservations & Inquiries</h2>
+      <p style="color: var(--admin-muted); font-size: 0.88rem;">Review client reservation submissions, update concierge status, and contact leads.</p>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <% if (inquiries.length === 0) { %>
+      <div style="text-align: center; padding: 60px 20px;">
+        <i class="fa-solid fa-inbox" style="font-size: 2.5rem; color: var(--admin-muted); margin-bottom: 16px;"></i>
+        <h3 style="color: #FFFFFF; margin-bottom: 8px;">No Inquiries Received</h3>
+        <p style="color: var(--admin-muted);">Reservation inquiries will appear here when guests submit booking requests on the website.</p>
+      </div>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Guest Details</th>
+              <th>Estate Requested</th>
+              <th>Stay Dates</th>
+              <th>Message & Itinerary</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% inquiries.forEach(function(inq) { %>
+              <tr>
+                <td>#<%= inq.id %></td>
+                <td><%= inq.created_date %></td>
+                <td>
+                  <strong style="color: #FFFFFF; font-size: 0.95rem;"><%= inq.guest_name %></strong><br />
+                  <a href="mailto:<%= inq.email %>" style="color: var(--admin-gold); font-size: 0.82rem;"><i class="fa-solid fa-envelope"></i> <%= inq.email %></a><br />
+                  <a href="tel:<%= inq.phone %>" style="color: var(--admin-muted); font-size: 0.82rem;"><i class="fa-solid fa-phone"></i> <%= inq.phone %></a>
+                </td>
+                <td>
+                  <strong><%= inq.villa_title || 'General Inquiry' %></strong>
+                </td>
+                <td>
+                  <span style="font-size: 0.85rem;"><%= (inq.check_in && inq.check_out) ? `${inq.check_in} to ${inq.check_out}` : 'Dates Flexible' %></span><br />
+                  <span style="font-size: 0.78rem; color: var(--admin-muted);"><%= inq.guests_count %> Guests</span>
+                </td>
+                <td style="max-width: 260px;">
+                  <p style="font-size: 0.85rem; color: var(--admin-muted); line-height: 1.5;"><%= inq.message %></p>
+                </td>
+                <td>
+                  <form action="/admin/update_inquiry_status" method="POST">
+                    <input type="hidden" name="id" value="<%= inq.id %>" />
+                    <select name="status" onchange="this.form.submit()" class="admin-select" style="padding: 6px 10px; font-size: 0.82rem;">
+                      <option value="pending" <%= inq.status === 'pending' ? 'selected' : '' %>>🟡 Pending</option>
+                      <option value="contacted" <%= inq.status === 'contacted' ? 'selected' : '' %>>🔵 Contacted</option>
+                      <option value="confirmed" <%= inq.status === 'confirmed' ? 'selected' : '' %>>🟢 Confirmed</option>
+                      <option value="cancelled" <%= inq.status === 'cancelled' ? 'selected' : '' %>>🔴 Cancelled</option>
+                    </select>
+                  </form>
+                </td>
+                <td>
+                  <a href="/admin/delete_inquiry/<%= inq.id %>" class="btn-admin btn-admin-danger btn-admin-sm confirm-delete" data-message="Are you sure you want to delete this inquiry record?" title="Delete Record">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+
+<%- include('footer.ejs') %>

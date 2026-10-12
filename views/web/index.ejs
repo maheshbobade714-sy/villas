@@ -1,0 +1,290 @@
+<%- include('header.ejs') %>
+
+  <!-- Hero Section -->
+  <section class="hero" id="homeHero" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=2000&q=80');">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <i class="fa-solid fa-gem text-gold"></i> Exclusive Private Residences
+      </div>
+      <h1 class="hero-title">
+        <%= (settings && settings.hero_title) ? settings.hero_title : 'Discover Unrivaled Coastal Luxury' %>
+      </h1>
+      <p class="hero-desc">
+        <%= (settings && settings.hero_subtitle) ? settings.hero_subtitle : 'Handcrafted private estates, crystal infinity pools, and round-the-clock bespoke concierge services across the world’s most coveted destinations.' %>
+      </p>
+      <div class="hero-cta">
+        <a href="/villas" class="btn btn-gold" id="heroExploreBtn">
+          <i class="fa-solid fa-compass"></i> Explore Collection
+        </a>
+        <a href="/contact" class="btn btn-outline" id="heroConciergeBtn">
+          <i class="fa-solid fa-champagne-glasses"></i> Speak with Concierge
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Reservation Filter Bar -->
+  <div class="search-strip">
+    <div class="container">
+      <form action="/villas" method="GET" class="search-strip-box">
+        <div class="search-item">
+          <label class="search-label" for="filterLocation"><i class="fa-solid fa-location-dot"></i> Destination</label>
+          <select name="location" id="filterLocation" class="search-input">
+            <option value="all">All Global Destinations</option>
+            <option value="Italy">Amalfi Coast, Italy</option>
+            <option value="Greece">Santorini, Greece</option>
+            <option value="Bali">Uluwatu, Bali</option>
+            <option value="France">French Riviera, France</option>
+            <option value="Mexico">Tulum, Mexico</option>
+            <option value="Switzerland">Zermatt, Switzerland</option>
+          </select>
+        </div>
+
+        <div class="search-item">
+          <label class="search-label" for="filterGuests"><i class="fa-solid fa-user-group"></i> Guests</label>
+          <select name="guests" id="filterGuests" class="search-input">
+            <option value="">Any Capacity</option>
+            <option value="4">4+ Guests</option>
+            <option value="8">8+ Guests</option>
+            <option value="12">12+ Guests</option>
+          </select>
+        </div>
+
+        <div class="search-item">
+          <label class="search-label" for="filterPrice"><i class="fa-solid fa-tag"></i> Nightly Rate</label>
+          <select name="maxPrice" id="filterPrice" class="search-input">
+            <option value="">Any Budget</option>
+            <option value="1200">Up to $1,200 / night</option>
+            <option value="2000">Up to $2,000 / night</option>
+            <option value="3000">Up to $3,000+ / night</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-gold" style="height: 52px; padding: 0 28px;">
+          <i class="fa-solid fa-magnifying-glass"></i> Find Sanctuary
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Featured Villas Showcase -->
+  <section class="section" id="featuredVillasSection">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tagline">Signature Sanctuaries</span>
+        <h2 class="section-title">The Masterpiece Collection</h2>
+        <p class="section-desc">
+          Each residence in our portfolio is meticulously selected for architectural prominence, supreme privacy, and uninterrupted oceanfront panorama.
+        </p>
+      </div>
+
+      <div class="villas-grid">
+        <% 
+        const imageFallbacks = [
+          'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80',
+          'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80',
+          'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80',
+          'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+          'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
+          'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'
+        ];
+        %>
+        <% featuredVillas.forEach(function(villa, idx) { 
+           const imgSrc = villa.image && villa.image.startsWith('villa_') 
+              ? '/uploads/' + villa.image 
+              : (imageFallbacks[idx % imageFallbacks.length]);
+        %>
+          <div class="villa-card">
+            <div class="villa-thumb">
+              <img src="<%= imgSrc %>" alt="<%= villa.title %>" loading="lazy" />
+              <span class="villa-badge"><i class="fa-solid fa-crown text-gold"></i> Exclusive</span>
+              <div class="villa-price-tag">
+                <span class="price-amount">$<%= Number(villa.price_per_night).toLocaleString() %></span>
+                <span class="price-unit">/ night</span>
+              </div>
+            </div>
+
+            <div class="villa-details">
+              <div class="villa-location">
+                <i class="fa-solid fa-location-dot"></i> <%= villa.location %>
+              </div>
+              <h3 class="villa-name"><%= villa.title %></h3>
+              <p class="villa-desc"><%= villa.description %></p>
+
+              <div class="villa-specs">
+                <div class="spec-item">
+                  <i class="fa-solid fa-user-group"></i> <span><%= villa.guests %> Guests</span>
+                </div>
+                <div class="spec-item">
+                  <i class="fa-solid fa-bed"></i> <span><%= villa.bedrooms %> Beds</span>
+                </div>
+                <div class="spec-item">
+                  <i class="fa-solid fa-bath"></i> <span><%= villa.bathrooms %> Baths</span>
+                </div>
+              </div>
+
+              <div class="villa-footer">
+                <div class="villa-rating">
+                  <i class="fa-solid fa-star"></i> <%= villa.rating || '5.0' %> 
+                  <span class="text-muted" style="font-size: 0.8rem;">(<%= villa.reviews_count || 18 %> reviews)</span>
+                </div>
+                <a href="/villa/<%= villa.id %>" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.82rem;">
+                  View Estate <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+
+      <div style="text-align: center; margin-top: 60px;">
+        <a href="/villas" class="btn btn-gold" style="padding: 16px 40px;">
+          View All <%= allVillas ? allVillas.length : 6 %> Available Estates <i class="fa-solid fa-chevron-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand Philosophy & Experience -->
+  <section class="section" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 60px; align-items: center;">
+        <div>
+          <span class="section-tagline">The Aura Standard</span>
+          <h2 class="section-title">Where Supreme Privacy Meets White-Glove Hospitality</h2>
+          <p class="section-desc" style="margin-bottom: 24px;">
+            Unlike standard hotel suites or unvetted vacation rentals, Aura ensures every villa is an architectural private paradise equipped with dedicated butlers, Michelin-trained in-villa chefs, and direct helicopter or yacht arrival.
+          </p>
+          <ul style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 36px;">
+            <li style="display: flex; align-items: flex-start; gap: 14px;">
+              <i class="fa-solid fa-circle-check text-gold" style="margin-top: 4px; font-size: 1.1rem;"></i>
+              <div>
+                <strong style="color: #FFFFFF; font-size: 1rem;">100% Verified Estates</strong>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Rigorous 300-point inspection covering soundproofing, bedding luxury, and infinity pool maintenance.</p>
+              </div>
+            </li>
+            <li style="display: flex; align-items: flex-start; gap: 14px;">
+              <i class="fa-solid fa-circle-check text-gold" style="margin-top: 4px; font-size: 1.1rem;"></i>
+              <div>
+                <strong style="color: #FFFFFF; font-size: 1rem;">Bespoke In-Villa Staff</strong>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Private sommeliers, dedicated concierges, and daily discreet housekeeping on your schedule.</p>
+              </div>
+            </li>
+            <li style="display: flex; align-items: flex-start; gap: 14px;">
+              <i class="fa-solid fa-circle-check text-gold" style="margin-top: 4px; font-size: 1.1rem;"></i>
+              <div>
+                <strong style="color: #FFFFFF; font-size: 1rem;">Seamless Privacy & Discretion</strong>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Private gates, private coves, and total confidentiality for high-profile guests and family retreats.</p>
+              </div>
+            </li>
+          </ul>
+          <a href="/about" class="btn btn-outline">Read Our Heritage</a>
+        </div>
+
+        <div>
+          <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-gold); box-shadow: var(--shadow-luxe);">
+            <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=80" alt="Luxury Hospitality" style="width: 100%; height: 500px; object-fit: cover;" />
+            <div style="position: absolute; bottom: 24px; left: 24px; right: 24px; background: rgba(9, 11, 14, 0.88); backdrop-filter: blur(12px); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center;">
+              <div>
+                <h4 style="font-size: 1.8rem; color: var(--gold-primary); font-family: var(--font-serif);">50+</h4>
+                <p style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary);">Private Estates</p>
+              </div>
+              <div>
+                <h4 style="font-size: 1.8rem; color: var(--gold-primary); font-family: var(--font-serif);">100%</h4>
+                <p style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary);">Five Star Stays</p>
+              </div>
+              <div>
+                <h4 style="font-size: 1.8rem; color: var(--gold-primary); font-family: var(--font-serif);">24/7</h4>
+                <p style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-secondary);">Concierge Service</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bespoke Experiences / Services -->
+  <section class="section" id="servicesSection">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tagline">Signature Inclusions</span>
+        <h2 class="section-title">Bespoke Concierge & Services</h2>
+        <p class="section-desc">
+          Every stay includes an array of tailor-made services designed to elevate your getaway into an extraordinary lifetime memory.
+        </p>
+      </div>
+
+      <div class="services-grid">
+        <% services.forEach(function(s) { %>
+          <div class="service-card">
+            <div class="service-icon-wrap">
+              <i class="fa-solid <%= s.icon %>"></i>
+            </div>
+            <h3 class="service-title"><%= s.title %></h3>
+            <p class="service-text"><%= s.summary %></p>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Verified Guest Reviews -->
+  <section class="section" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle);">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tagline">Guest Testimonials</span>
+        <h2 class="section-title">Words From Discerning Travelers</h2>
+        <p class="section-desc">Read unfiltered praise from high-profile guests, couples, and families who made Aura their sanctuary.</p>
+      </div>
+
+      <div class="reviews-grid">
+        <% 
+        const guestAvatars = [
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80'
+        ];
+        %>
+        <% reviews.forEach(function(r, idx) { %>
+          <div class="review-card">
+            <div class="review-stars">
+              <% for(let i = 0; i < (r.rating || 5); i++) { %>
+                <i class="fa-solid fa-star"></i>
+              <% } %>
+            </div>
+            <p class="review-text">“<%= r.review_text %>”</p>
+            <div class="review-author">
+              <img src="<%= guestAvatars[idx % guestAvatars.length] %>" alt="<%= r.guest_name %>" class="author-avatar" />
+              <div>
+                <div class="author-name"><%= r.guest_name %></div>
+                <div class="author-meta"><%= r.guest_location %> &bull; Stayed at <%= r.villa_name %></div>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grand Reservation Banner -->
+  <section class="section" style="text-align: center; background: radial-gradient(circle at center, #1E2738 0%, #090B0E 80%);">
+    <div class="container" style="max-width: 800px;">
+      <span class="section-tagline">Begin Your Journey</span>
+      <h2 class="section-title" style="font-size: clamp(2.4rem, 5vw, 4rem);">Ready to Secure Your Private Sanctuary?</h2>
+      <p class="section-desc" style="margin-bottom: 36px;">
+        Connect directly with our senior reservation desk for confidential consultations, custom itineraries, and bespoke villa selections.
+      </p>
+      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+        <a href="/contact" class="btn btn-gold" style="padding: 18px 42px; font-size: 1rem;">
+          <i class="fa-regular fa-paper-plane"></i> Contact Senior Concierge
+        </a>
+        <a href="tel:+18005892872" class="btn btn-outline" style="padding: 18px 36px; font-size: 1rem;">
+          <i class="fa-solid fa-phone"></i> Call Hotline: +1 (800) 589-2872
+        </a>
+      </div>
+    </div>
+  </section>
+
+<%- include('footer.ejs') %>

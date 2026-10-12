@@ -1,0 +1,51 @@
+<%- include('header.ejs') %>
+
+  <div class="card-header-bar" style="border: none; padding-bottom: 0; margin-bottom: 24px;">
+    <div>
+      <h2 style="font-size: 1.6rem; color: #FFFFFF;">Verified Guest Reviews</h2>
+      <p style="color: var(--admin-muted); font-size: 0.88rem;">Manage client feedback and ratings displayed in the social proof section.</p>
+    </div>
+  </div>
+
+  <div class="admin-card">
+    <div class="table-responsive">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Guest Name</th>
+            <th>Location</th>
+            <th>Residence Stayed</th>
+            <th>Rating</th>
+            <th>Review Text</th>
+            <th>Stay Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% reviews.forEach(function(r) { %>
+            <tr>
+              <td><strong style="color: #FFFFFF;"><%= r.guest_name %></strong></td>
+              <td><%= r.guest_location %></td>
+              <td><%= r.villa_name %></td>
+              <td>
+                <span style="color: #FBBF24;">
+                  <% for(let i=0; i < (r.rating || 5); i++) { %><i class="fa-solid fa-star"></i><% } %>
+                </span>
+              </td>
+              <td style="max-width: 320px;">
+                <p style="font-size: 0.85rem; color: var(--admin-muted); line-height: 1.5;">“<%= r.review_text %>”</p>
+              </td>
+              <td><%= r.stay_date %></td>
+              <td>
+                <a href="/admin/delete_review/<%= r.id %>" class="btn-admin btn-admin-danger btn-admin-sm confirm-delete" data-message="Are you sure you want to remove this review?">
+                  <i class="fa-solid fa-trash"></i>
+                </a>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<%- include('footer.ejs') %>

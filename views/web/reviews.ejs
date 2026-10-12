@@ -1,0 +1,56 @@
+<%- include('header.ejs') %>
+
+  <!-- Page Header -->
+  <section style="padding: 160px 0 80px; background: linear-gradient(180deg, rgba(9, 11, 14, 0.85) 0%, var(--bg-dark) 100%), url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat; text-align: center;">
+    <div class="container">
+      <span class="section-tagline">Discerning Praise</span>
+      <h1 class="section-title" style="font-size: clamp(2.6rem, 5vw, 4.2rem);">Guest Testimonials & Praise</h1>
+      <p class="section-desc" style="max-width: 680px; margin: 0 auto;">
+        Real reflections from global leaders, families, and couples who celebrated their most memorable holidays at Aura Sanctuaries.
+      </p>
+    </div>
+  </section>
+
+  <!-- Reviews Grid -->
+  <section class="section">
+    <div class="container">
+      <div class="reviews-grid">
+        <% 
+        const guestAvatars = [
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+          'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80'
+        ];
+        %>
+        <% reviews.forEach(function(r, idx) { %>
+          <div class="review-card">
+            <div class="review-stars">
+              <% for(let i = 0; i < (r.rating || 5); i++) { %>
+                <i class="fa-solid fa-star"></i>
+              <% } %>
+            </div>
+            <p class="review-text">“<%= r.review_text %>”</p>
+            <div class="review-author">
+              <img src="<%= guestAvatars[idx % guestAvatars.length] %>" alt="<%= r.guest_name %>" class="author-avatar" />
+              <div>
+                <div class="author-name"><%= r.guest_name %></div>
+                <div class="author-meta"><%= r.guest_location %> &bull; <%= r.stay_date %></div>
+                <div style="font-size: 0.78rem; color: var(--gold-primary); margin-top: 2px;">Residence: <%= r.villa_name %></div>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+
+      <!-- Trust Badges -->
+      <div style="margin-top: 80px; text-align: center; background: var(--bg-surface); padding: 40px; border-radius: var(--radius-md); border: 1px solid var(--border-gold);">
+        <h3 style="font-size: 1.6rem; color: #FFFFFF; margin-bottom: 12px;">Ranked Top Global Private Villa Hospitality</h3>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 24px;">
+          Audited by international luxury travel councils with a 99.4% guest satisfaction score.
+        </p>
+        <a href="/contact" class="btn btn-gold">Plan Your Experience With Us</a>
+      </div>
+    </div>
+  </section>
+
+<%- include('footer.ejs') %>

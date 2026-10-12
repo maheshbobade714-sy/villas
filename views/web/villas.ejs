@@ -1,0 +1,138 @@
+<%- include('header.ejs') %>
+
+  <!-- Page Header -->
+  <section style="padding: 160px 0 80px; background: linear-gradient(180deg, rgba(9, 11, 14, 0.8) 0%, var(--bg-dark) 100%), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat; text-align: center;">
+    <div class="container">
+      <span class="section-tagline">Curated Collection</span>
+      <h1 class="section-title" style="font-size: clamp(2.6rem, 5vw, 4.2rem);">The Private Estates Portfolio</h1>
+      <p class="section-desc" style="max-width: 680px; margin: 0 auto;">
+        Explore architectural masterpieces and secluded waterfront residences available for private buyout and unforgettable escapes.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter & Catalog Section -->
+  <section class="section" style="padding-top: 40px;">
+    <div class="container">
+      <!-- Search & Filter Controls -->
+      <form action="/villas" method="GET" style="background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 24px; margin-bottom: 50px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) auto; gap: 18px; align-items: flex-end;">
+        <div class="search-item">
+          <label class="search-label" for="locSelect"><i class="fa-solid fa-location-dot"></i> Destination</label>
+          <select name="location" id="locSelect" class="search-input" style="padding: 10px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 4px;">
+            <option value="all">All Destinations</option>
+            <option value="Italy" <%= (filters && filters.location === 'Italy') ? 'selected' : '' %>>Amalfi Coast, Italy</option>
+            <option value="Greece" <%= (filters && filters.location === 'Greece') ? 'selected' : '' %>>Santorini, Greece</option>
+            <option value="Bali" <%= (filters && filters.location === 'Bali') ? 'selected' : '' %>>Uluwatu, Bali</option>
+            <option value="France" <%= (filters && filters.location === 'France') ? 'selected' : '' %>>French Riviera, France</option>
+            <option value="Mexico" <%= (filters && filters.location === 'Mexico') ? 'selected' : '' %>>Tulum, Mexico</option>
+            <option value="Switzerland" <%= (filters && filters.location === 'Switzerland') ? 'selected' : '' %>>Zermatt, Switzerland</option>
+          </select>
+        </div>
+
+        <div class="search-item">
+          <label class="search-label" for="guestSelect"><i class="fa-solid fa-users"></i> Min Guests</label>
+          <select name="guests" id="guestSelect" class="search-input" style="padding: 10px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 4px;">
+            <option value="">Any Guests</option>
+            <option value="4" <%= (filters && filters.guests === '4') ? 'selected' : '' %>>4+ Guests</option>
+            <option value="8" <%= (filters && filters.guests === '8') ? 'selected' : '' %>>8+ Guests</option>
+            <option value="12" <%= (filters && filters.guests === '12') ? 'selected' : '' %>>12+ Guests</option>
+          </select>
+        </div>
+
+        <div class="search-item">
+          <label class="search-label" for="sortSelect"><i class="fa-solid fa-arrow-down-wide-short"></i> Sort By</label>
+          <select name="sort" id="sortSelect" class="search-input" style="padding: 10px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); border-radius: 4px;">
+            <option value="">Recommended</option>
+            <option value="price_asc" <%= (filters && filters.sort === 'price_asc') ? 'selected' : '' %>>Price: Low to High</option>
+            <option value="price_desc" <%= (filters && filters.sort === 'price_desc') ? 'selected' : '' %>>Price: High to Low</option>
+            <option value="guests_desc" <%= (filters && filters.sort === 'guests_desc') ? 'selected' : '' %>>Guest Capacity</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button type="submit" class="btn btn-gold" style="height: 46px; padding: 0 24px;">Filter</button>
+          <a href="/villas" class="btn btn-outline" style="height: 46px; padding: 0 16px;">Reset</a>
+        </div>
+      </form>
+
+      <!-- Results Count -->
+      <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">
+          Showing <strong style="color: #FFFFFF;"><%= villas.length %></strong> Luxury Private Residences
+        </p>
+      </div>
+
+      <!-- Villas Grid -->
+      <% if (villas.length === 0) { %>
+        <div style="text-align: center; padding: 80px 20px; background: var(--bg-surface); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <i class="fa-solid fa-house-chimney-crack text-gold" style="font-size: 3rem; margin-bottom: 20px;"></i>
+          <h3 style="font-size: 1.8rem; color: #FFFFFF; margin-bottom: 12px;">No Residences Match Your Criteria</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 24px;">Try clearing filters or contact our concierge desk for tailored off-market estates.</p>
+          <a href="/villas" class="btn btn-gold">Clear Filters</a>
+        </div>
+      <% } else { %>
+        <div class="villas-grid">
+          <% 
+          const imageFallbacks = [
+            'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80'
+          ];
+          %>
+          <% villas.forEach(function(villa, idx) { 
+             const imgSrc = villa.image && villa.image.startsWith('villa_') 
+                ? '/uploads/' + villa.image 
+                : (imageFallbacks[idx % imageFallbacks.length]);
+          %>
+            <div class="villa-card">
+              <div class="villa-thumb">
+                <img src="<%= imgSrc %>" alt="<%= villa.title %>" loading="lazy" />
+                <% if(villa.featured) { %>
+                  <span class="villa-badge"><i class="fa-solid fa-crown text-gold"></i> Signature</span>
+                <% } %>
+                <div class="villa-price-tag">
+                  <span class="price-amount">$<%= Number(villa.price_per_night).toLocaleString() %></span>
+                  <span class="price-unit">/ night</span>
+                </div>
+              </div>
+
+              <div class="villa-details">
+                <div class="villa-location">
+                  <i class="fa-solid fa-location-dot"></i> <%= villa.location %>
+                </div>
+                <h3 class="villa-name"><%= villa.title %></h3>
+                <p class="villa-desc"><%= villa.description %></p>
+
+                <div class="villa-specs">
+                  <div class="spec-item">
+                    <i class="fa-solid fa-user-group"></i> <span><%= villa.guests %> Guests</span>
+                  </div>
+                  <div class="spec-item">
+                    <i class="fa-solid fa-bed"></i> <span><%= villa.bedrooms %> Beds</span>
+                  </div>
+                  <div class="spec-item">
+                    <i class="fa-solid fa-bath"></i> <span><%= villa.bathrooms %> Baths</span>
+                  </div>
+                </div>
+
+                <div class="villa-footer">
+                  <div class="villa-rating">
+                    <i class="fa-solid fa-star"></i> <%= villa.rating || '4.9' %> 
+                    <span class="text-muted" style="font-size: 0.8rem;">(<%= villa.reviews_count || 20 %>)</span>
+                  </div>
+                  <a href="/villa/<%= villa.id %>" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.82rem;">
+                    View Sanctuary <i class="fa-solid fa-arrow-right"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+<%- include('footer.ejs') %>

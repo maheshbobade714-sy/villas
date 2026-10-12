@@ -1,0 +1,244 @@
+<%- include('header.ejs') %>
+
+  <%
+  const imageFallbacks = [
+    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1400&q=80'
+  ];
+  const mainImage = villa.image && villa.image.startsWith('villa_') 
+    ? '/uploads/' + villa.image 
+    : (imageFallbacks[(villa.id - 1) % imageFallbacks.length]);
+  %>
+
+  <!-- Success Notification if inquiry just sent -->
+  <% if (typeof query !== 'undefined' && query.inquiry_success === 'true') { %>
+    <div class="toast-banner" style="position: fixed; top: 90px; right: 24px; z-index: 9999; background: #0E281E; border: 1px solid #10B981; color: #FFFFFF; padding: 18px 24px; border-radius: var(--radius-sm); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 14px;">
+      <i class="fa-solid fa-circle-check" style="color: #10B981; font-size: 1.4rem;"></i>
+      <div>
+        <strong style="color: #10B981; font-size: 0.95rem;">Reservation Inquiry Received!</strong>
+        <p style="font-size: 0.85rem; color: #D1FAE5;">Our private villa concierge will contact you within 2 hours with dates and pricing confirmation.</p>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- Villa Banner Header -->
+  <section class="villa-hero-banner" style="background-image: linear-gradient(180deg, rgba(9, 11, 14, 0.4) 0%, rgba(9, 11, 14, 0.95) 100%), url('<%= mainImage %>');">
+    <div class="container" style="position: relative; z-index: 2;">
+      <div style="display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap;">
+        <span class="villa-badge" style="position: static;"><i class="fa-solid fa-location-dot"></i> <%= villa.location %></span>
+        <% if(villa.featured) { %>
+          <span class="villa-badge" style="position: static; border-color: var(--gold-primary);"><i class="fa-solid fa-crown text-gold"></i> Signature Collection</span>
+        <% } %>
+      </div>
+      <h1 style="font-size: clamp(2.4rem, 4.5vw, 4.2rem); color: #FFFFFF; margin-bottom: 16px;"><%= villa.title %></h1>
+      <div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap; font-size: 0.95rem;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-star text-gold"></i> 
+          <strong><%= villa.rating || '4.9' %></strong> 
+          <span class="text-muted">(<%= villa.reviews_count || 18 %> verified stays)</span>
+        </div>
+        <div style="color: var(--gold-primary);">
+          <i class="fa-solid fa-shield-halved"></i> 100% Private Buyout Guarantee
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Villa Content & Reservation Panel -->
+  <section class="section" style="padding-top: 50px;">
+    <div class="container">
+      <div class="detail-layout">
+        <!-- Main Details Column -->
+        <div>
+          <!-- Spec Grid -->
+          <div class="villa-spec-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr)); gap: 16px; background: var(--bg-surface); padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); margin-bottom: 40px;">
+            <div style="text-align: center;">
+              <i class="fa-solid fa-user-group text-gold" style="font-size: 1.4rem; margin-bottom: 8px;"></i>
+              <div style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF;"><%= villa.guests %></div>
+              <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">Max Guests</div>
+            </div>
+            <div style="text-align: center;">
+              <i class="fa-solid fa-bed text-gold" style="font-size: 1.4rem; margin-bottom: 8px;"></i>
+              <div style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF;"><%= villa.bedrooms %></div>
+              <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">Bedrooms</div>
+            </div>
+            <div style="text-align: center;">
+              <i class="fa-solid fa-bath text-gold" style="font-size: 1.4rem; margin-bottom: 8px;"></i>
+              <div style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF;"><%= villa.bathrooms %></div>
+              <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">Bathrooms</div>
+            </div>
+            <div style="text-align: center;">
+              <i class="fa-solid fa-vector-square text-gold" style="font-size: 1.4rem; margin-bottom: 8px;"></i>
+              <div style="font-size: 1.1rem; font-weight: 700; color: #FFFFFF;"><%= Number(villa.area_sqft).toLocaleString() %></div>
+              <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">Sq. Ft. Living</div>
+            </div>
+          </div>
+
+          <!-- Description Section -->
+          <div style="margin-bottom: 48px;">
+            <h2 style="font-size: 2rem; color: #FFFFFF; margin-bottom: 18px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px;">Sanctuary Overview</h2>
+            <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.9; margin-bottom: 24px;">
+              <%= villa.description %>
+            </p>
+            <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.9;">
+              Impeccably appointed with bespoke designer furnishings, natural stone, and seamless indoor-outdoor living pavilions that frame unobstructed ocean sunrises and sunsets. Each guest suite features private marble en-suite bathrooms, custom organic Egyptian cotton linens, and walk-in dressing quarters.
+            </p>
+          </div>
+
+          <!-- Amenities & Exclusives -->
+          <div style="margin-bottom: 48px;">
+            <h2 style="font-size: 2rem; color: #FFFFFF; margin-bottom: 24px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 12px;">Exclusive Estate Amenities</h2>
+            <div class="villa-amenities-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px;">
+              <% 
+              const amenitiesList = (villa.amenities || 'Infinity Pool,Private Sea Access,Private Chef,Butler Service,Helipad,Wine Cellar,Spa Pavilion,High-Speed Starlink').split(',');
+              amenitiesList.forEach(function(item) { 
+              %>
+                <div style="display: flex; align-items: center; gap: 12px; background: var(--bg-surface); padding: 14px 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+                  <i class="fa-solid fa-circle-check text-gold"></i>
+                  <span style="font-size: 0.92rem; color: #FFFFFF;"><%= item.trim() %></span>
+                </div>
+              <% }); %>
+            </div>
+          </div>
+
+          <!-- VIP Hospitality Inclusions -->
+          <div style="background: var(--bg-surface); border: 1px solid var(--border-gold); border-radius: var(--radius-md); padding: 32px; margin-bottom: 48px;">
+            <h3 style="font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 16px;">
+              <i class="fa-solid fa-bell-concierge"></i> Included In Your Private Stay
+            </h3>
+            <ul class="villa-inclusions-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; color: var(--text-secondary); font-size: 0.95rem;">
+              <li><i class="fa-solid fa-check text-gold" style="margin-right: 8px;"></i> Complimentary Executive Airport SUV Transfer</li>
+              <li><i class="fa-solid fa-check text-gold" style="margin-right: 8px;"></i> Dedicated 24/7 Estate Villa Host & Butler</li>
+              <li><i class="fa-solid fa-check text-gold" style="margin-right: 8px;"></i> Daily Artisanal Breakfast Prepared by Private Chef</li>
+              <li><i class="fa-solid fa-check text-gold" style="margin-right: 8px;"></i> Pre-Arrival Cellar & Gourmet Pantry Stocking</li>
+              <li><i class="fa-solid fa-check text-gold" style="margin-right: 8px;"></i> Daily Discreet Housekeeping & Turndown</li>
+              <li><i class="fa-solid fa-check text-gold" style="margin-right: 8px;"></i> Unrestricted Access to Private Concierge Desk</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sticky Reservation / Booking Inquiry Sidebar -->
+        <div>
+          <div class="booking-card">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; padding-bottom: 18px; border-bottom: 1px solid var(--border-subtle);">
+              <div>
+                <span id="villaBasePrice" data-price="<%= villa.price_per_night %>" style="font-size: 2.2rem; font-weight: 700; color: var(--gold-primary); font-family: var(--font-serif);">$<%= Number(villa.price_per_night).toLocaleString() %></span>
+                <span style="font-size: 0.85rem; color: var(--text-secondary);">/ night</span>
+              </div>
+              <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                <i class="fa-solid fa-star text-gold"></i> <%= villa.rating || '4.9' %> (Verified)
+              </div>
+            </div>
+
+            <!-- Booking Form -->
+            <form action="/book_inquiry" method="POST" data-booking-form>
+              <input type="hidden" name="villa_id" value="<%= villa.id %>" />
+              <input type="hidden" name="villa_title" value="<%= villa.title %>" />
+
+              <div class="form-group">
+                <label class="form-label" for="calcCheckIn">Check-In Date</label>
+                <input type="date" name="check_in" id="calcCheckIn" class="form-control" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="calcCheckOut">Check-Out Date</label>
+                <input type="date" name="check_out" id="calcCheckOut" class="form-control" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="bookGuests">Number of Guests</label>
+                <select name="guests_count" id="bookGuests" class="form-control">
+                  <% for(let g = 1; g <= (villa.guests || 10); g++) { %>
+                    <option value="<%= g %>" <%= g === 2 ? 'selected' : '' %>><%= g %> <%= g === 1 ? 'Guest' : 'Guests' %></option>
+                  <% } %>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="guestName">Your Full Name</label>
+                <input type="text" name="guest_name" id="guestName" class="form-control" placeholder="e.g. Lady Vivienne Carter" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="guestEmail">Email Address</label>
+                <input type="email" name="email" id="guestEmail" class="form-control" placeholder="client@luxurydomain.com" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="guestPhone">Direct Phone / WhatsApp</label>
+                <input type="tel" name="phone" id="guestPhone" class="form-control" placeholder="+1 (555) 019-2834" required />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="bookMessage">Special Requests / Private Itinerary</label>
+                <textarea name="message" id="bookMessage" rows="3" class="form-control" placeholder="In-villa chef requirements, helicopter transfer, anniversaries, yacht charter..."></textarea>
+              </div>
+
+              <!-- Live Price Estimation Display -->
+              <div style="background: var(--bg-elevated); padding: 16px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); margin-bottom: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span style="font-size: 0.82rem; color: var(--text-secondary); text-transform: uppercase;">Estimated Total:</span>
+                  <span id="calcTotalPrice" style="font-size: 1.4rem; font-weight: 700; color: var(--gold-primary);">$<%= Number(villa.price_per_night * 3).toLocaleString() %></span>
+                </div>
+                <p id="calcNights" style="font-size: 0.78rem; color: var(--text-secondary);">Estimated for 3 nights (Select dates to calculate)</p>
+              </div>
+
+              <button type="submit" class="btn btn-gold" style="width: 100%; padding: 16px; font-size: 0.95rem;">
+                <i class="fa-solid fa-lock"></i> Request Confidential Reservation
+              </button>
+              <button type="button" class="btn btn-whatsapp" data-send-booking-whatsapp style="width: 100%; padding: 16px; font-size: 0.95rem; margin-top: 10px;">
+                <i class="fa-brands fa-whatsapp"></i> Send Booking on WhatsApp
+              </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: var(--text-secondary);">
+              <i class="fa-solid fa-shield-halved text-gold"></i> No immediate charge &bull; Direct concierge review
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Recommended Sanctuaries -->
+      <% if (relatedVillas && relatedVillas.length > 0) { %>
+        <div style="margin-top: 100px; padding-top: 60px; border-top: 1px solid var(--border-subtle);">
+          <div class="section-head" style="text-align: left; margin-bottom: 40px;">
+            <span class="section-tagline">More Sanctuaries</span>
+            <h2 class="section-title">Similar Extraordinary Residences</h2>
+          </div>
+          <div class="villas-grid">
+            <% relatedVillas.forEach(function(rel, idx) { 
+               const relImg = rel.image && rel.image.startsWith('villa_') 
+                  ? '/uploads/' + rel.image 
+                  : (imageFallbacks[idx % imageFallbacks.length]);
+            %>
+              <div class="villa-card">
+                <div class="villa-thumb">
+                  <img src="<%= relImg %>" alt="<%= rel.title %>" />
+                  <div class="villa-price-tag">
+                    <span class="price-amount">$<%= Number(rel.price_per_night).toLocaleString() %></span>
+                    <span class="price-unit">/ night</span>
+                  </div>
+                </div>
+                <div class="villa-details">
+                  <div class="villa-location"><i class="fa-solid fa-location-dot"></i> <%= rel.location %></div>
+                  <h3 class="villa-name"><%= rel.title %></h3>
+                  <div class="villa-specs">
+                    <div class="spec-item"><i class="fa-solid fa-user-group"></i> <%= rel.guests %> Guests</div>
+                    <div class="spec-item"><i class="fa-solid fa-bed"></i> <%= rel.bedrooms %> Beds</div>
+                    <div class="spec-item"><i class="fa-solid fa-bath"></i> <%= rel.bathrooms %> Baths</div>
+                  </div>
+                  <a href="/villa/<%= rel.id %>" class="btn btn-outline" style="width: 100%; text-align: center; margin-top: 12px;">Explore Villa</a>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </section>
+
+<%- include('footer.ejs') %>

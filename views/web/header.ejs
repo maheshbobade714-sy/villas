@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Aura Luxury Villas | Private Escapes & Sanctuaries' %></title>
+  <meta name="description" content="Handcrafted private luxury villas, crystal infinity pools, and bespoke concierge hospitality in the world’s most breathtaking coastal destinations." />
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-wrap">
+      <a href="/" class="brand-logo" id="brandLogoLink">
+        <span class="brand-title"><%= (typeof settings !== 'undefined' && settings.site_name) ? settings.site_name.split(' ')[0] : 'Aura' %> <span><%= (typeof settings !== 'undefined' && settings.site_name && settings.site_name.split(' ')[1]) ? settings.site_name.split(' ').slice(1).join(' ') : 'Villas' %></span></span>
+        <span class="brand-subtitle"><%= (typeof settings !== 'undefined' && settings.tagline) ? settings.tagline : 'Private Sanctuaries' %></span>
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="/" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/') ? 'active' : '' %>" id="navHome">Home</a>
+        <a href="/villas" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/villas') ? 'active' : '' %>" id="navVillas">Villas</a>
+        <a href="/about" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/about') ? 'active' : '' %>" id="navAbout">About</a>
+        <a href="/amenities" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/amenities') ? 'active' : '' %>" id="navAmenities">Experiences</a>
+        <a href="/gallery" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/gallery') ? 'active' : '' %>" id="navGallery">Gallery</a>
+        <a href="/reviews" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/reviews') ? 'active' : '' %>" id="navReviews">Reviews</a>
+        <a href="/contact" class="nav-link <%= (typeof currentPath !== 'undefined' && currentPath === '/contact') ? 'active' : '' %>" id="navContact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/917972540923?text=Hello%2C%20I%27d%20like%20to%20enquire%20about%20booking%20a%20villa."
+          class="btn btn-whatsapp" id="navBookBtn" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp Booking
+        </a>
+        <button class="mobile-toggle" aria-label="Toggle Navigation Menu" id="mobileMenuBtn">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>

@@ -1,0 +1,84 @@
+<%- include('header.ejs') %>
+
+  <!-- Hero Header -->
+  <section style="padding: 160px 0 80px; background: linear-gradient(180deg, rgba(9, 11, 14, 0.85) 0%, var(--bg-dark) 100%), url('https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat; text-align: center;">
+    <div class="container">
+      <span class="section-tagline">Our Heritage</span>
+      <h1 class="section-title" style="font-size: clamp(2.6rem, 5vw, 4.2rem);">The Aura Philosophy</h1>
+      <p class="section-desc" style="max-width: 720px; margin: 0 auto;">
+        Founded on the premise that true luxury is neither loud nor crowded — it is found in total seclusion, exquisite architectural harmony, and intuitive bespoke service.
+      </p>
+    </div>
+  </section>
+
+  <!-- Narrative Section -->
+  <section class="section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 60px; align-items: center; margin-bottom: 90px;">
+        <div>
+          <span class="section-tagline">The Genesis</span>
+          <h2 class="section-title">Crafting Sanctuaries for Discerning Travelers</h2>
+          <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.9; margin-bottom: 20px;">
+            Aura was born in 2018 along the sun-drenched cliffs of the Mediterranean. Disillusioned with crowded five-star hotels that compromised privacy, our founders envisioned a private sanctuary network where high-profile families and travelers could enjoy complete sovereign tranquility.
+          </p>
+          <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.9; margin-bottom: 30px;">
+            Every single property in our collection is an architectural triumph. Before joining Aura, an estate must satisfy over 300 rigorous benchmarks — from the acoustics of bedroom suites to the temperature precision of infinity plunge pools and the sourcing of organic in-villa cuisine.
+          </p>
+          <div style="display: flex; gap: 30px;">
+            <div>
+              <h3 style="font-size: 2.4rem; color: var(--gold-primary); font-family: var(--font-serif);">98.8%</h3>
+              <p style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary);">Guest Retention Rate</p>
+            </div>
+            <div>
+              <h3 style="font-size: 2.4rem; color: var(--gold-primary); font-family: var(--font-serif);">50+</h3>
+              <p style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary);">Global Estates</p>
+            </div>
+            <div>
+              <h3 style="font-size: 2.4rem; color: var(--gold-primary); font-family: var(--font-serif);">&lt; 15m</h3>
+              <p style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary);">Concierge Response</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-gold); box-shadow: var(--shadow-luxe);">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Villa Architecture" style="width: 100%; height: 500px; object-fit: cover;" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Pillars -->
+      <div class="section-head">
+        <span class="section-tagline">Three Non-Negotiable Tenets</span>
+        <h2 class="section-title">The Foundation of Our Standard</h2>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 30px;">
+        <div style="background: var(--bg-surface); padding: 40px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div class="service-icon-wrap"><i class="fa-solid fa-gem"></i></div>
+          <h3 style="font-size: 1.4rem; color: #FFFFFF; margin-bottom: 14px;">Architectural Distinction</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+            We do not host generic rentals. Each property is created by world-renowned architects, harmonizing sustainable local stone with panoramic sightlines.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-surface); padding: 40px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div class="service-icon-wrap"><i class="fa-solid fa-user-secret"></i></div>
+          <h3 style="font-size: 1.4rem; color: #FFFFFF; margin-bottom: 14px;">Absolute Discretion</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+            From private helipads to non-disclosure confidentiality agreements for all staff, our guests enjoy unfettered serenity and peace of mind.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-surface); padding: 40px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+          <div class="service-icon-wrap"><i class="fa-solid fa-bell-concierge"></i></div>
+          <h3 style="font-size: 1.4rem; color: #FFFFFF; margin-bottom: 14px;">Intuitive White-Glove Care</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8;">
+            Our personal villa managers anticipate your desires before they are uttered — from vintage champagne chilling upon arrival to sunrise yacht moorings.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<%- include('footer.ejs') %>

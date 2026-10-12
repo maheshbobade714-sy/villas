@@ -1,0 +1,100 @@
+<%- include('header.ejs') %>
+
+  <div class="card-header-bar" style="border: none; padding-bottom: 0; margin-bottom: 24px;">
+    <div>
+      <h2 style="font-size: 1.6rem; color: #FFFFFF;"><%= isEdit ? 'Edit Luxury Villa' : 'Add New Luxury Villa' %></h2>
+      <p style="color: var(--admin-muted); font-size: 0.88rem;">Specify architectural specs, rates, amenities, and imagery.</p>
+    </div>
+    <a href="/admin/villas" class="btn-admin" style="background: var(--admin-card); border: 1px solid var(--admin-border); color: #FFF;">
+      <i class="fa-solid fa-arrow-left"></i> Back to Collection
+    </a>
+  </div>
+
+  <div class="admin-card">
+    <form action="<%= isEdit ? '/admin/update_villa' : '/admin/save_villa' %>" method="POST" enctype="multipart/form-data">
+      <% if (isEdit) { %>
+        <input type="hidden" name="id" value="<%= villa.id %>" />
+        <input type="hidden" name="old_image" value="<%= villa.image %>" />
+      <% } %>
+
+      <div class="form-grid-2">
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="villaTitle">Estate Title</label>
+          <input type="text" name="title" id="villaTitle" class="admin-input" placeholder="e.g. Villa Solaria Cliffside" value="<%= (isEdit && villa) ? villa.title : '' %>" required />
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="villaLocation">Geographic Location</label>
+          <input type="text" name="location" id="villaLocation" class="admin-input" placeholder="e.g. Amalfi Coast, Italy" value="<%= (isEdit && villa) ? villa.location : '' %>" required />
+        </div>
+      </div>
+
+      <div class="form-grid-3">
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="villaPrice">Price Per Night ($ USD)</label>
+          <input type="number" name="price_per_night" id="villaPrice" class="admin-input" placeholder="1500" value="<%= (isEdit && villa) ? villa.price_per_night : '' %>" required />
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="villaGuests">Guest Capacity</label>
+          <input type="number" name="guests" id="villaGuests" class="admin-input" placeholder="10" value="<%= (isEdit && villa) ? villa.guests : '8' %>" required />
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="villaSqft">Living Area (Sq. Ft.)</label>
+          <input type="number" name="area_sqft" id="villaSqft" class="admin-input" placeholder="6500" value="<%= (isEdit && villa) ? villa.area_sqft : '5000' %>" required />
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="villaBedrooms">Bedrooms Count</label>
+          <input type="number" name="bedrooms" id="villaBedrooms" class="admin-input" placeholder="5" value="<%= (isEdit && villa) ? villa.bedrooms : '4' %>" required />
+        </div>
+
+        <div class="admin-form-group">
+          <label class="admin-form-label" for="villaBathrooms">Bathrooms Count</label>
+          <input type="number" name="bathrooms" id="villaBathrooms" class="admin-input" placeholder="6" value="<%= (isEdit && villa) ? villa.bathrooms : '5' %>" required />
+        </div>
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="villaDesc">Architectural & Sanctuary Description</label>
+        <textarea name="description" id="villaDesc" rows="4" class="admin-textarea" placeholder="Detailed architectural description, panoramic views, terrace specifics..." required><%= (isEdit && villa) ? villa.description : '' %></textarea>
+      </div>
+
+      <div class="admin-form-group">
+        <label class="admin-form-label" for="villaAmenities">Amenities (Comma-separated)</label>
+        <input type="text" name="amenities" id="villaAmenities" class="admin-input" placeholder="Infinity Pool, Private Sea Access, Private Chef, Helipad, Wine Cellar, Starlink" value="<%= (isEdit && villa) ? (villa.amenities || '') : 'Infinity Pool, Private Sea Access, Private Chef, Butler Service, Helipad, Wine Cellar, Spa Pavilion, High-Speed Starlink' %>" />
+      </div>
+
+      <div class="admin-form-group">
+        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+          <input type="checkbox" name="featured" value="1" <%= (isEdit && villa && villa.featured) ? 'checked' : '' %> style="width: 18px; height: 18px; accent-color: var(--admin-gold);" />
+          <span style="font-weight: 600; color: #FFFFFF;">Feature on Homepage Showcase (Signature Collection)</span>
+        </label>
+      </div>
+
+      <!-- Photographic Upload -->
+      <div class="admin-form-group" style="background: #0D1117; padding: 20px; border-radius: var(--radius-sm); border: 1px dashed var(--admin-border);">
+        <label class="admin-form-label" for="imageUploadInput"><i class="fa-solid fa-camera"></i> Estate Primary Image</label>
+        <input type="file" name="image" id="imageUploadInput" accept="image/*" class="admin-input" style="padding: 8px;" />
+        <p style="font-size: 0.78rem; color: var(--admin-muted); margin-top: 6px;">Supported formats: JPG, PNG, WEBP. Max size: 10MB.</p>
+
+        <div style="margin-top: 14px;">
+          <img id="imagePreviewTarget" src="<%= (isEdit && villa && villa.image && villa.image.startsWith('villa_')) ? '/uploads/' + villa.image : '' %>" alt="Preview" style="max-height: 180px; border-radius: var(--radius-sm); display: <%= (isEdit && villa && villa.image && villa.image.startsWith('villa_')) ? 'block' : 'none' %>; border: 1px solid var(--admin-gold);" />
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 14px; margin-top: 30px;">
+        <button type="submit" class="btn-admin btn-admin-gold" style="padding: 14px 32px; font-size: 0.95rem;">
+          <i class="fa-solid fa-floppy-disk"></i> <%= isEdit ? 'Update Villa Details' : 'Publish New Villa' %>
+        </button>
+        <a href="/admin/villas" class="btn-admin" style="background: rgba(255,255,255,0.06); color: #FFF;">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+
+<%- include('footer.ejs') %>
